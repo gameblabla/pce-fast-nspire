@@ -1,0 +1,24 @@
+CC = clang-3.6
+AR = ar
+RANLIB = ranlib
+
+CFLAGS = -Wall -I. -I/usr/include/SDL -DHAVE_IOPERM
+OUTPUT = libopl.a
+
+SOURCES = opl.c opl_linux.c opl_queue.c opl_sdl.c opl_timer.c ioperm_sys.c dbopl_light.c
+OBJS = ${SOURCES:.c=.o}
+
+all: ${OUTPUT} toar tolib
+
+${OUTPUT}:${OBJS}
+	${CC} -c -o  ${OBJS} ${CFLAGS} 
+
+toar:
+	$(AR) cru ${OUTPUT} ${OBJS}
+	
+tolib:
+	$(RANLIB) ${OUTPUT}
+	
+clean:
+	rm *.o
+	rm ${OUTPUT}
